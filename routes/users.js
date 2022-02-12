@@ -22,9 +22,6 @@ router.post("/",async(req,res)=>{
     
 });
 
-// router.get('/',(req,res)=>{
-//   res.send("Hello User");
-// })
 
 
 module.exports=router;
