@@ -1,3 +1,4 @@
+
 const _ =require('lodash');
 const bcrypt=require("bcrypt");
 const {Users,validate}=require("../models/users");
@@ -17,7 +18,10 @@ router.post("/",async(req,res)=>{
   const salt=await bcrypt.genSalt(10);
   user.password=await bcrypt.hash(user.password,salt);
   user=await user.save(); 
-  res.send(_.pick(user,["_id","uname","email"]));
+
+
+  const token=user.generateAuthToken();
+  res.header("x-auth-token",token).send(_.pick(user,["_id","uname","email"]));
 
     
 });
