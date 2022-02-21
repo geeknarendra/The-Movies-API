@@ -1,4 +1,6 @@
+
 const config=require("config");
+const error=require("./midldeware/error")
 const mongoose = require('mongoose');
 const Joi=require("joi")
 Joi.objectId=require('joi-objectid')(Joi);
@@ -9,6 +11,7 @@ const rental=require('./routes/rental');
 const users=require('./routes/users');
 const auth=require('./routes/auth');
 const express = require('express');
+const req = require("express/lib/request");
 const app = express();
 
 if (!config.get("jwtPrivateKey")){
@@ -27,5 +30,8 @@ app.use('/api/rental',rental);
 app.use("/api/users",users);      //Register
 app.use('/api/login',auth);       //Auth
 
+
+//Error handling 
+app.use(error);
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
