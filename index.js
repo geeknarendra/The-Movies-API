@@ -18,8 +18,10 @@ if (!config.get("jwtPrivateKey")){
   console.error("jwtPrivateKey Not Defined");
   process.exit(1);
 }
-mongoose.connect('mongodb://localhost/mongo-exercises')
-  .then(() => console.log('Connected to MongoDB...'))
+const db=config.get("db");
+mongoose.connect(db)
+
+  .then(() => console.log(`Connected to ${db}...`))
   .catch(err => console.error('Could not connect to MongoDB...'));
 
 app.use(express.json());
@@ -34,4 +36,6 @@ app.use('/api/login',auth);       //Auth
 //Error handling 
 app.use(error);
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+const server=app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+module.exports=server;
